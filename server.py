@@ -1,23 +1,18 @@
 from flask import Flask
 from flask import request
 import stress
+import socket
+import subprocess
 
 app = Flask(__name__)
-
-class seed_storage():
-    seed = 0
-
-seed_box = seed_storage()
 
 @app.route('/', methods=['POST', 'GET'])
 def hello_world():
     if request.method == 'POST':
-        seed_in = request.json
-        seed_in = int(seed_in['num'])
-        seed_box.seed = seed_in
-        return str(seed_box.seed)
+        subprocess.Popen("python", "stress.py")
+        return socket.gethostname() 
     else:
-        return str(seed_box.seed)
+        return socket.gethostname() 
 
 
 if __name__ == "__main__":
